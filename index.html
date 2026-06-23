@@ -310,11 +310,16 @@ btnLogout.addEventListener("click", async () => {
         });
         const data = await response.json();
 
-        log(
-  "Status: " + response.status + "\n\n" +
-  JSON.stringify(data, null, 2) +
-  "\n\n✅ Token JWT válido (longitud: " + token.length + " caracteres)"
-);
+        statusEl.style.display = "block";
+statusEl.innerHTML = `
+  <div style="margin-bottom:8px">Status: ${response.status}</div>
+  <pre style="margin-bottom:8px">${JSON.stringify(data, null, 2)}</pre>
+  <div style="margin-bottom:8px">✅ Token JWT válido (${token.length} caracteres)</div>
+  <button onclick="navigator.clipboard.writeText(\`${token}\`).then(() => this.textContent = '✅ Copiado!')" 
+    style="background:#2dd4bf;color:#0b0d12;border:none;padding:8px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;">
+    📋 Copiar token para Swagger
+  </button>
+`;
       } catch (error) {
         log("Error: " + error.message);
       }
